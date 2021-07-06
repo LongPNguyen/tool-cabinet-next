@@ -1,43 +1,129 @@
-import {useEffect} from 'react'
+import { useState, useEffect} from 'react'
+import { connectToDatabase } from '../../util/mongodb'
 import Layout from '../../components/Layout/layout'
 import { useSession } from 'next-auth/client'
-import { useHistory } from 'react-router-dom';
+import { useRouter } from 'next/router'
+import styles from '../../components/Styles/index.module.css'
+import { DatePicker, Space } from 'antd';
+import moment from 'moment';
+import Quote from '../../components/Modals/quoteForm'
 
-export default function ToolPage() {
+export default function ToolPage({tools}) {
   const [ session, loading ] = useSession()
+  const [tool, setTool] = useState({})
+  const [dates, setDates] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
       typeof document !== undefined ? require('bootstrap/dist/js/bootstrap') : null
+
+      const { id } = router.query
+      const fetchData = async() => {
+          for(let i = 0; i < tools.length; i++){
+              if(tools[i]._id === id){
+                  setTool(tools[i])
+              } else {
+                  <div>
+                      Error
+                  </div>
+              }
+            }
+      };
+       fetchData()
   }, [])
+
+  const { RangePicker } = DatePicker;
+
+  function onChange(dates, dateStrings) {
+    // console.log('From: ', dates[0], ', to: ', dates[1]);
+    // console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+    setDates(dateStrings)
+  }
 
   return (
     <Layout>
-        <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-            {/* <img src={tools.selectedFile} class="d-block w-100" alt="..."/> */}
+      {/* desktop */}
+      <div className="container">
+        <div className={`row ${styles.gallery}`}>
+          <div className={`col ${styles.galleryImg}`}>
+            <img src={tool.selectedFile} className="img-fluid" style={{borderRadius:'5 0 0 5', height:'100%', width:'100%'}}/>
+          </div>
+          <div className="col">
+            <div className="row" style={{height:"50%", marginBottom:'12px'}} >
+              <div className="col">
+                <img src={tool.selectedFile} width="100%" height="100%" className="img-fluid"/>
+              </div>
+              <div className="col">
+                <img src={tool.selectedFile} style={{borderRadius:'0 5 0 0'}} className="img-fluid" />
+              </div>
             </div>
-            <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="..."/>
+            <div className="row" style={{height:"50%", marginBottom:'12px'}}>
+              <div className="col">
+              <img src={tool.selectedFile} width="100%" height="100%" className="img-fluid"/>
+              </div>
+              <div className="col">
+              <img src={tool.selectedFile} style={{borderRadius:'0 0 5 0'}} className="img-fluid"/>
+              </div>
             </div>
-            <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="..."/>
+          </div>
+        </div>
+        <div className="row" style={{marginBottom:'2em'}}>
+          {/* left column */}
+          <div className="col-8" style={{borderRight:"1px solid black"}}>
+            <div className="row">
+              <div className="col-lg-8 col-xs-12">
+                <h1>{tool.title}</h1>
+                <p>{tool.description}</p>
+              </div>
+              {/* right side left column */}
+              <div className="col-lg-4 col-xs-12 d-flex justify-content-start">
+                <div className="card" style={{width: "18rem"}}>
+                  <div className="card-body">
+                    <h5 className="card-title">${tool.pricePerDay} / <span style={{fontSize:'80%', color:"grey"}}>Day</span></h5>
+                    <h6 className="card-subtitle mb-2 text-muted"></h6>
+                    <div className="card-text" style={{margin:"1em 0"}}>
+                    <Space direction="vertical" size={12}>
+                      <RangePicker
+                        ranges={{
+                          Today: [moment(), moment()],
+                          'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        }}
+                        onChange={onChange}
+                      />
+                    </Space>
+                    </div>
+                    <Quote dates={dates}/>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          {/* right column */}
+          <div className="col-4">
+                <img className="img-thumbnail" src="https://i1.wp.com/i.pinimg.com/originals/2e/bc/2a/2ebc2a4c4874d77c575cac4c00594a0f.jpg?ssl=1"/>
+                <p style={{fontSize:'1vw', paddingLeft:"5px"}}>
+                  {tool.storeName || 'My Rental Store Name'}<br/>
+                  123 Rental Street Kansas City, MO 64118<br/>
+                  (816)111-1111<br/>
+                  store@email.com
+                </p>
+          </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-        </div>
+      </div>
+      {/* mobile */}
     </Layout>
   )
 }
+
+export async function getServerSideProps(context) {
+    const { db } = await connectToDatabase()
+  
+    const toolData = await db.collection("tools").find({}).toArray();
+  
+    const tools = JSON.parse(JSON.stringify(toolData))
+  
+    return {
+      props: { tools: tools },
+    }
+  }
+  

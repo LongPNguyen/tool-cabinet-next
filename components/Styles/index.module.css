@@ -17,3 +17,12 @@
         width: 18rem
     }
 }
+
+.gallery { 
+    background-image: url("/images/toolbgblur.jpeg");
+    background-size: cover;
+    border-radius:5px;
+    padding:24px 12px;
+    margin-bottom: 2em
+}
+

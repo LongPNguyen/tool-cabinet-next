@@ -1,9 +1,7 @@
 import {useEffect} from 'react'
-import Head from 'next/head'
 import { connectToDatabase } from '../util/mongodb'
 import Layout from '../components/Layout/layout'
 import { useSession } from 'next-auth/client'
-import Link from 'next/dist/client/link'
 import Tools from '../Components/Tools/tools'
 
 export default function Home({tools}) {
