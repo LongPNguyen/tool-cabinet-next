@@ -1,8 +1,9 @@
 import {useEffect} from 'react'
-import { connectToDatabase } from '../util/mongodb'
+import dbConnect from '../util/mongodb'
 import Layout from '../components/Layout/layout'
 import { useSession } from 'next-auth/client'
-import Tools from '../Components/Tools/tools'
+import ToolsComp from '../Components/Tools/tools'
+import Tools from '../models/Tool'
 
 export default function Home({tools}) {
   const [ session, loading ] = useSession()
@@ -11,7 +12,7 @@ export default function Home({tools}) {
   }, [])
   return (
     <Layout>
-            <div className="container col-xxl-8 px-4 py-5">
+            <div className="container col-xxl-8 px-4">
               <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div className="col-10 col-sm-8 col-lg-6">
                   <img src="/images/toolcabinetlogo.jpg" className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy"/>
@@ -46,14 +47,16 @@ export default function Home({tools}) {
   )
 }
 
-export async function getServerSideProps(context) {
-  const { db } = await connectToDatabase()
+export async function getServerSideProps() {
+  await dbConnect()
 
-  const toolData = await db.collection("tools").find({}).toArray();
+  /* find all the data in our database */
+  const result = await Tools.find({});
+  const tools = result.map((doc) => {
+    const tool = doc
+    tool._id = tool._id.toString()
+    return tool
+  })
 
-  const tools = JSON.parse(JSON.stringify(toolData))
-
-  return {
-    props: { tools: tools },
-  }
+  return { props: { tools: tools } }
 }

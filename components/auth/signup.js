@@ -22,7 +22,7 @@ export default function SignUp() {
                     </button>
 
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink" style={{marginRight:"5em"}}>
-                        <li><Link href="/profile"><a className="dropdown-item">Profile</a></Link></li>
+                        <li><Link href="/profile/[pid]" as={`/profile/${session.user.name}`}><a className="dropdown-item">Profile</a></Link></li>
                         <li><a className="dropdown-item" href="#">Another action</a></li>
                         <li><a className="dropdown-item" href="/" onClick={() => signOut()}>Log out</a></li>
                     </ul>

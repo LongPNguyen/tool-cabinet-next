@@ -1,5 +1,5 @@
 import { useState, useEffect} from 'react'
-import { connectToDatabase } from '../../util/mongodb'
+import { dbConnect } from '../../util/mongodb'
 import Layout from '../../components/Layout/layout'
 import { useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
@@ -116,7 +116,7 @@ export default function ToolPage({tools}) {
 }
 
 export async function getServerSideProps(context) {
-    const { db } = await connectToDatabase()
+    const { db } = await dbConnect()
   
     const toolData = await db.collection("tools").find({}).toArray();
   

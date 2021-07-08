@@ -2,7 +2,7 @@ import Link from "next/dist/client/link";
 import styles from '../Styles/index.module.css'
 
 
-export default function Tools({tools}) {
+export default function ToolsComp({tools}) {
   return (
     <>
     <Link href={`/tools/${tools._id}`} tool={tools}>
