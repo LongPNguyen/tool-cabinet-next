@@ -6,9 +6,9 @@ export default function ToolsComp({tools}) {
   return (
     <>
     <Link href={`/tools/${tools._id}`} tool={tools}>
-      <div className="col-xl-3 col-lg-4 col-sm-6 d-flex align-items-center flex-column">
-        <div className="card display" style={{width: '18rem', marginBottom:"1em"}}>
-          <img src={tools.selectedFile} className="card-img-top" style={{height:"18rem"}} alt="..."/>
+      <div className="col-xl-2 col-lg-2 col-6 d-flex align-items-center flex-column">
+        <div className="card display" style={{width: '10rem', marginBottom:"1em"}}>
+          <img src={tools.images} className="card-img-top img-fluid" style={{height:"10rem"}} alt="..."/>
           <div className="card-body">
             <p className="card-text"><strong>{tools.title}</strong></p>
             <p className="card-text">{tools.description}</p>
@@ -18,9 +18,6 @@ export default function ToolsComp({tools}) {
               </div>
               <div className="col-6 d-flex align-items-center justify-content-start">
                 <p className={styles.priceContainer}>${tools.pricePerDay}|Day</p>
-              </div>
-              <div className="col-12 d-flex align-items-center justify-content-start">
-                <p className={styles.priceContainer}>${tools.pricePerWk}|Wk</p>
               </div>
             </div>
           </div>

@@ -5,6 +5,12 @@ export default NextAuth({
   pages: {
     signOut: '../../index'
   },
+  callbacks: {
+    session: async (session, user) => {
+       session.id = user.id
+       return Promise.resolve(session)
+    }
+ },
   providers: [
     // Passwordless / email sign in
     Providers.Email({

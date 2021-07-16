@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 
-const toolSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const ToolSchema = new Schema({
     ownerId: {
         type: String
     },
@@ -14,33 +16,27 @@ const toolSchema = mongoose.Schema({
         type: String
     },
     pricePerDay: {
-        type: Number
+        type: String
     },
     depositPrice: {
-        type: Number
+        type: String
     },
     damagePrice: {
-        type: Number
+        type: String
     },
     category: {
-        type: Number
+        type: String
     },
     tags: [String],
-    images: [String],
+    images: String,
     rating: {
-        type: Number,
-        stars: 0,
-        people: 0
-    },
-    createdAt: {
-        type: Date,
-        default: new Date()
+        type: String
     },
     outDate: {
-        type: Date
+        type: String
     },
     returnDate: {
-        type: Date
+        type: String
     },
     status: {
         type: String
@@ -50,4 +46,4 @@ const toolSchema = mongoose.Schema({
     },
 })
 
-export default mongoose.model.Tool || mongoose.model('Tool', toolSchema);
+module.exports = mongoose.models.Tools || mongoose.model('Tools', ToolSchema);

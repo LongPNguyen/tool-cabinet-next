@@ -1,43 +1,32 @@
-import { useState, useEffect} from 'react'
-import { dbConnect } from '../../util/mongodb'
+import { useState } from 'react'
+import dbConnect from '../../util/mongodb'
+import Tools from '../../models/Tool'
+import Users from '../../models/User'
 import Layout from '../../components/Layout/layout'
-import { useSession } from 'next-auth/client'
-import { useRouter } from 'next/router'
 import styles from '../../components/Styles/index.module.css'
-import { DatePicker, Space } from 'antd';
+import { DatePicker, Space, Alert } from 'antd';
 import moment from 'moment';
 import Quote from '../../components/Modals/quoteForm'
 
-export default function ToolPage({tools}) {
-  const [ session, loading ] = useSession()
-  const [tool, setTool] = useState({})
+export default function ToolPage({tool, owner}) {
   const [dates, setDates] = useState([])
-  const router = useRouter()
-
-  useEffect(() => {
-      typeof document !== undefined ? require('bootstrap/dist/js/bootstrap') : null
-
-      const { id } = router.query
-      const fetchData = async() => {
-          for(let i = 0; i < tools.length; i++){
-              if(tools[i]._id === id){
-                  setTool(tools[i])
-              } else {
-                  <div>
-                      Error
-                  </div>
-              }
-            }
-      };
-       fetchData()
-  }, [])
+  const [validation, setValidation] = useState("")
 
   const { RangePicker } = DatePicker;
 
   function onChange(dates, dateStrings) {
     // console.log('From: ', dates[0], ', to: ', dates[1]);
     // console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+    setValidation("valid")
     setDates(dateStrings)
+  }
+
+  const handleSubmit = (e) => {
+    if (dates.length === 2) {
+      setValidation("valid")
+    } else {
+      setValidation("invalid")
+    }
   }
 
   return (
@@ -46,23 +35,23 @@ export default function ToolPage({tools}) {
       <div className="container">
         <div className={`row ${styles.gallery}`}>
           <div className={`col ${styles.galleryImg}`}>
-            <img src={tool.selectedFile} className="img-fluid" style={{borderRadius:'5 0 0 5', height:'100%', width:'100%'}}/>
+            <img src={tool.images} className="img-fluid" style={{borderRadius:'5 0 0 5', height:'100%', width:'100%'}}/>
           </div>
           <div className="col">
             <div className="row" style={{height:"50%", marginBottom:'12px'}} >
               <div className="col">
-                <img src={tool.selectedFile} width="100%" height="100%" className="img-fluid"/>
+                <img src={tool.images} width="100%" height="100%" className="img-fluid"/>
               </div>
               <div className="col">
-                <img src={tool.selectedFile} style={{borderRadius:'0 5 0 0'}} className="img-fluid" />
+                <img src={tool.images} style={{borderRadius:'0 5 0 0'}} className="img-fluid" />
               </div>
             </div>
             <div className="row" style={{height:"50%", marginBottom:'12px'}}>
               <div className="col">
-              <img src={tool.selectedFile} width="100%" height="100%" className="img-fluid"/>
+              <img src={tool.images} width="100%" height="100%" className="img-fluid"/>
               </div>
               <div className="col">
-              <img src={tool.selectedFile} style={{borderRadius:'0 0 5 0'}} className="img-fluid"/>
+              <img src={tool.images} style={{borderRadius:'0 0 5 0'}} className="img-fluid"/>
               </div>
             </div>
           </div>
@@ -82,6 +71,7 @@ export default function ToolPage({tools}) {
                     <h5 className="card-title">${tool.pricePerDay} / <span style={{fontSize:'80%', color:"grey"}}>Day</span></h5>
                     <h6 className="card-subtitle mb-2 text-muted"></h6>
                     <div className="card-text" style={{margin:"1em 0"}}>
+                    <div className="input-group">
                     <Space direction="vertical" size={12}>
                       <RangePicker
                         ranges={{
@@ -89,10 +79,23 @@ export default function ToolPage({tools}) {
                           'This Month': [moment().startOf('month'), moment().endOf('month')],
                         }}
                         onChange={onChange}
+                        name={dates}
+                        id="validationCustomUsername"
+                        aria-describedby="inputGroupPrepend"
                       />
                     </Space>
+                    </div>                 
+                      {validation === "invalid" ?
+                        <div style={{marginTop:'1em'}}>
+                        <Alert message="Please select your dates" type="error" />
+                        </div>
+                        : null                    
+                      }
                     </div>
-                    <Quote dates={dates}/>
+                    <button onClick={()=>{handleSubmit()}} type="button" className="btn btn-primary" data-bs-toggle={validation === "valid" ? "modal" : ""} data-bs-target="#quoteModal">
+                      Request a Quote
+                    </button>
+                    <Quote dates={dates} tool={tool} owner={owner}/>
                   </div>
                 </div>
               </div>
@@ -115,15 +118,16 @@ export default function ToolPage({tools}) {
   )
 }
 
-export async function getServerSideProps(context) {
-    const { db } = await dbConnect()
-  
-    const toolData = await db.collection("tools").find({}).toArray();
-  
-    const tools = JSON.parse(JSON.stringify(toolData))
-  
-    return {
-      props: { tools: tools },
-    }
-  }
+export async function getServerSideProps({params}) {
+  await dbConnect()
+
+  /* find all the data in our database */
+  const tool = await Tools.findById(params.id).lean();
+  tool._id = tool._id.toString()
+
+  const user = await Users.findById(tool.ownerId).lean();
+  user._id = user._id.toString()
+
+  return { props: { tool: tool, owner: user._id } }
+}
   

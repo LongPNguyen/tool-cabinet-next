@@ -12,9 +12,9 @@ export default function Home({tools}) {
   }, [])
   return (
     <Layout>
-            <div className="container col-xxl-8 px-4">
+            <div className="container col-xl-12 px-4">
               <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
-                <div className="col-10 col-sm-8 col-lg-6">
+                <div className="col-12 col-sm-8 col-lg-6">
                   <img src="/images/toolcabinetlogo.jpg" className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy"/>
                 </div>
                 <div className="col-lg-6">
@@ -30,15 +30,23 @@ export default function Home({tools}) {
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-center" style={{marginBottom: "10em"}}>
-            <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">Discover</button>
+            <div style={{height:"200px"}}>
+              <div className="d-flex justify-content-center">
+                <button type="button" className="btn btn-primary btn-lg px-4 me-md-2">
+                  <a href="#tools" style={{color: "inherit"}}><span>Discover </span> 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                  </a>
+                </button>
+              </div>
             </div>
-            <div className="d-flex align-items-center flex-column">
+            <div className="d-flex align-items-center flex-column" id="tools">
               <h1 style={{margin:"1em", borderBottom:"1px solid red"}}>Tools</h1>
               <div className="container">
-              <div className="row">
+              <div className="row g-2">
                 {tools.map((tool)=>(
-                  <Tools tools={tool}/>
+                  <ToolsComp key={tool._id} tools={tool}/>
                 ))}
               </div>
               </div>
@@ -52,11 +60,13 @@ export async function getServerSideProps() {
 
   /* find all the data in our database */
   const result = await Tools.find({});
-  const tools = result.map((doc) => {
+  const grabTools = result.map((doc) => {
     const tool = doc
     tool._id = tool._id.toString()
     return tool
   })
+
+  const tools = JSON.parse(JSON.stringify(grabTools))
 
   return { props: { tools: tools } }
 }
