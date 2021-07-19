@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 const Quote = ({dates, tool, owner}) => {
     const [formData, setFormData] = useState({ toolId: "", toolImage: "", toolTitle: "", toolStatus: "", owner: "",  name: "", email: "", phone: "", message: "", dates: []})
@@ -27,32 +27,6 @@ const Quote = ({dates, tool, owner}) => {
       }
     }
 
-    const putData = async (form) => {
-      const { id } = router.query
-  
-      try {
-        const res = await fetch(`/api/tools/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: {status: "Pending"},
-        })
-  
-        // Throw error with status code in case Fetch API req failed
-        if (!res.ok) {
-          throw new Error(res.status)
-        }
-  
-        const { data } = await res.json()
-  
-        mutate(`/api/tools/${id}`, data, false) // Update the local data without a revalidation
-        router.push(`/profile/${pid}/orders`)
-      } catch (error) {
-        setMessage('Failed to update tool')
-      }
-    }
-
     const handleChange = (e) => {
       const target = e.target
       const value = target.value
@@ -66,14 +40,14 @@ const Quote = ({dates, tool, owner}) => {
         toolTitle: tool.title,
         toolStatus: "Pending",
         dates: dates,
-        owner: owner
+        owner: owner,
       })
     }
 
     const handleSubmit = (e) => {
       e.preventDefault()
       postData(formData)
-      putForm()
+      putData(toolStatus)
     }
 
     return(
@@ -91,7 +65,7 @@ const Quote = ({dates, tool, owner}) => {
               <form onSubmit={handleSubmit} action={url}>
               <div className="modal-body">
                   <div className="mb-3">
-                      <label for="name" className="form-label">Full name</label>
+                      <label htmlFor="name" className="form-label">Full name</label>
                       <input
                       type="text"
                       className="form-control"
@@ -102,7 +76,7 @@ const Quote = ({dates, tool, owner}) => {
                       />
                   </div>
                   <div className="mb-3">
-                      <label for="email" className="form-label">Email address</label>
+                      <label htmlFor="email" className="form-label">Email address</label>
                       <input
                       type="email"
                       className="form-control" 
@@ -113,7 +87,7 @@ const Quote = ({dates, tool, owner}) => {
                       />
                   </div>
                   <div className="mb-3">
-                      <label for="phone" className="form-label">Phone number</label>
+                      <label htmlFor="phone" className="form-label">Phone number</label>
                       <input 
                       type="phone" 
                       className="form-control" 
@@ -124,7 +98,7 @@ const Quote = ({dates, tool, owner}) => {
                       />
                   </div>
                   <div className="mb-3">
-                      <label for="message" className="form-label">Message</label>
+                      <label htmlFor="message" className="form-label">Message</label>
                       <textarea 
                       className="form-control" 
                       id="message" 

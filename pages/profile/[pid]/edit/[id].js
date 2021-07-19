@@ -4,7 +4,6 @@ import Tools from "../../../../models/Tool"
 import Layout from "../../../../components/Layout/layout"
 import Sidebar from "../../../../components/Sidebar/sidebar"
 import { useRouter } from "next/router"
-import Link from "next/dist/client/link"
 
 
 const EditPost = ({tool}) => {

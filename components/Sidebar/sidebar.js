@@ -11,7 +11,13 @@ export default function Sidebar({pid}) {
                             </Link>
                         </li>
                         <li>
-                            <Link href="/profile/[pid]/[dash]" as={`/profile/${pid}/orders`}><a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Orders</span></a></Link>
+                            <Link href="/profile/[pid]/[dash]" as={`/profile/${pid}/pendingorders`}><a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Pending Orders</span></a></Link>
+                        </li>
+                        <li>
+                            <Link href="/profile/[pid]/[dash]" as={`/profile/${pid}/acceptedorders`}><a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Accepted Orders</span></a></Link>
+                        </li>
+                        <li>
+                            <Link href="/profile/[pid]/[dash]" as={`/profile/${pid}/declinedorders`}><a href="#" className="nav-link px-0"> <span className="d-none d-sm-inline">Declined Orders</span></a></Link>
                         </li>
                         <li className="w-100">
                             <Link href="/profile/[pid]/[dash]" as={`/profile/${pid}/post`}><a className="nav-link px-0"><span className="d-none d-sm-inline">Post Inventory</span></a></Link>

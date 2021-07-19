@@ -1,5 +1,5 @@
 import dbConnect from "../../../util/mongodb"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/router"
 import { useSession, signIn, getSession } from "next-auth/client"
 import Layout from "../../../components/Layout/layout"
@@ -8,16 +8,17 @@ import Users from "../../../models/User"
 import Tools from "../../../models/Tool"
 import Leads from "../../../models/Leads"
 import Post from "./postPage"
-import Orders from "./ordersPage"
-import EditPost from "./edit/[id]";
+import Pending from "./pending"
+import Accepted from "./accepted"
+import Declined from "./declined"
 
 const MainDash = ({user, tool, lead}) => {
-    const[session, loading] = useSession();
+    const[session, loading] = useSession()
     const [tabs, setTabs] = useState()
     const router = useRouter()
     const { pid, dash } = router.query
 
-    const sideBarRoute = () =>{}
+    console.log()
 
     if(typeof window !== "undefined" && loading){
       return null;
@@ -31,6 +32,7 @@ const MainDash = ({user, tool, lead}) => {
                 </div>
         )
     }
+
     
     return (
       <Layout>
@@ -40,8 +42,9 @@ const MainDash = ({user, tool, lead}) => {
                     <div className="col py-3">
                         {
                          dash === 'post' ? <Post pid={pid} user={user} tool={tool}/> :
-                         dash === 'orders' ? <Orders user={user} tool={tool} leads={lead}/> :
-                         dash ===  `edit/*` ? <EditPost/> :
+                         dash === 'pendingorders' ? <Pending lead={lead}/> :
+                         dash === 'acceptedorders' ? <Accepted lead={lead}/> :
+                         dash === 'declinedorders' ? <Declined lead={lead}/> :
                          "hello"
                         }
                     </div>
@@ -56,12 +59,12 @@ export async function getServerSideProps({req}) {
   const session = await getSession({ req });
 
   /* find all the data in our database */
-  const user = await Users.findById(session.id);
+  const user = await Users.findById(session?.id);
   user._id = user._id.toString()
   // this allows the data to be read with the correct data type
   const parseUser = JSON.parse(JSON.stringify(user))
 
-  const results = await Tools.find({ownerId: session.id});
+  const results = await Tools.find({ownerId: session?.id});
   const tools = results.map((doc) => {
     const tool = doc
     tool._id = tool._id.toString()
