@@ -1,6 +1,21 @@
 import LeadInfo from "../../../components/orders/leadInfo";
+import { useSession } from "next-auth/client"
 
 const Accepted = ({lead}) => {
+    const[session, loading] = useSession()
+    
+    if(typeof window !== "undefined" && loading){
+        return null;
+      }
+      
+      if(!session){
+          return (
+                  <div>
+                      <h1>You aren't signed in, please sign in first</h1>
+                      <button onClick={()=>{signIn()}}>Sign In</button>
+                  </div>
+          )
+      }
 
     return (
       <div className="container">

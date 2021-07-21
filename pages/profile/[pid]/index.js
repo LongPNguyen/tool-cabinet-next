@@ -1,5 +1,4 @@
 import { useSession, signIn } from "next-auth/client";
-import { useRouter } from 'next/router'
 import MainDash from "./[dash]";
 
 export default function Secret(){

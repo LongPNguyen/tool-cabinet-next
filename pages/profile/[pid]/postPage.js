@@ -1,9 +1,24 @@
-import React, { useState, useEffect} from "react"
 import PostForm from "../../../components/Forms/postForm";
-import EditPost from "./edit/[id]";
 import Link from "next/dist/client/link";
+import { useSession } from "next-auth/client"
+import { useEffect } from "react";
+
 
 const Post = ({pid, user, tool}) => {
+    const[session, loading] = useSession()
+    
+    if(typeof window !== "undefined" && loading){
+        return null;
+      }
+      
+      if(!session){
+          return (
+                  <div>
+                      <h1>You aren't signed in, please sign in first</h1>
+                      <button onClick={()=>{signIn()}}>Sign In</button>
+                  </div>
+          )
+      }
     useEffect(() => {
         typeof document !== undefined ? require('bootstrap/dist/js/bootstrap') : null
     }, [])

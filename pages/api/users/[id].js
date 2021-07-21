@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
     case 'PUT' /* Edit a model by its ID */:
       try {
-        const user = await Users.findByIdAndUpdate(id, req.body, {
+        const user = await Users.findByIdAndUpdate(req.body.id, req.body, {
           new: true,
           runValidators: true,
         })

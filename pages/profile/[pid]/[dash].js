@@ -37,18 +37,22 @@ const MainDash = ({user, tool, lead}) => {
     return (
       <Layout>
             <div className="container-fluid">
+              {user?.business === true ?
                 <div className="row flex-nowrap">
                     <Sidebar pid={pid}/>
                     <div className="col py-3">
                         {
-                         dash === 'post' ? <Post pid={pid} user={user} tool={tool}/> :
-                         dash === 'pendingorders' ? <Pending lead={lead}/> :
-                         dash === 'acceptedorders' ? <Accepted lead={lead}/> :
-                         dash === 'declinedorders' ? <Declined lead={lead}/> :
+                         dash === 'post' ? <Post pid={pid} user={user} tool={tool} session={session}/> :
+                         dash === 'pendingorders' ? <Pending lead={lead} session={session}/> :
+                         dash === 'acceptedorders' ? <Accepted lead={lead} session={session}/> :
+                         dash === 'declinedorders' ? <Declined lead={lead} session={session}/> :
                          "hello"
                         }
                     </div>
                 </div>
+              :
+              "hello"
+              }
             </div>
       </Layout>
     )
@@ -60,7 +64,9 @@ export async function getServerSideProps({req}) {
 
   /* find all the data in our database */
   const user = await Users.findById(session?.id);
-  user._id = user._id.toString()
+  if(user){
+    user._id = user?._id.toString()
+  }
   // this allows the data to be read with the correct data type
   const parseUser = JSON.parse(JSON.stringify(user))
 

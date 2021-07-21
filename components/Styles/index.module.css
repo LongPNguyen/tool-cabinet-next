@@ -26,3 +26,12 @@
     margin-bottom: 2em
 }
 
+.checklist {
+    list-style: none;
+  }
+  
+.checklist li:before {
+    content: '✓';
+  }
+  
+

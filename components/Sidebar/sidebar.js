@@ -7,7 +7,7 @@ export default function Sidebar({pid}) {
                     <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li>
                             <Link href="/profile/[pid]" as={`/profile/${pid}`} >
-                                <a><i className="fs-4 bi-speedometer2"></i><span className="d-none d-sm-inline">Dashboard</span></a>
+                                <a><span className="d-none d-sm-inline">Dashboard</span></a>
                             </Link>
                         </li>
                         <li>

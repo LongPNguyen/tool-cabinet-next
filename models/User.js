@@ -11,7 +11,8 @@ const UserSchema = new Schema({
     storeDescription: String,
     storeImage: String,
     storeNumber: String,
-    storeWebSite: String,  
+    storeWebSite: String,
+    business: Boolean
 })
 
 module.exports = mongoose.models.Users || mongoose.model('Users', UserSchema);

@@ -32,7 +32,7 @@ export default function ToolPage({tool, owner}) {
   return (
     <Layout>
       {/* desktop */}
-      <div className="container">
+      <div className="container" style={{paddingTop:"1em"}}>
         <div className={`row ${styles.gallery}`}>
           <div className={`col ${styles.galleryImg}`}>
             <img src={tool.images} className="img-fluid" style={{borderRadius:'5 0 0 5', height:'100%', width:'100%'}}/>

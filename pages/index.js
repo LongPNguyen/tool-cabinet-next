@@ -1,19 +1,25 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import dbConnect from '../util/mongodb'
 import Layout from '../components/Layout/layout'
-import { useSession } from 'next-auth/client'
 import ToolsComp from '../Components/Tools/tools'
 import Tools from '../models/Tool'
+import Link from 'next/link'
+import Router from 'next/router'
 
 export default function Home({tools}) {
-  const [ session, loading ] = useSession()
+  const [schValue, setSchValue] = useState()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    Router.push(`/search/${schValue}`)
+  }
   useEffect(() => {
       typeof document !== undefined ? require('bootstrap/dist/js/bootstrap') : null
   }, [])
   return (
     <Layout>
             <div className="container col-xl-12 px-4">
-              <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
+              <div className="row flex-lg-row-reverse align-items-center justify-content-center py-5 g-5">
                 <div className="col-12 col-sm-8 col-lg-6">
                   <img src="/images/toolcabinetlogo.jpg" className="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy"/>
                 </div>
@@ -22,9 +28,17 @@ export default function Home({tools}) {
                   <p className="lead">With Tool Cabinet finding a the right tool for the job is a walk in the park, rent from local tool suppliers and grow the community!</p>
                   <div className="d-grid gap-2 d-md-flex justify-content-md-start">
 
-                    <form className="d-flex">
-                      <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                      <button className="btn btn-primary" type="submit">Search</button>
+                    <form className="d-flex" onSubmit={handleSubmit}>
+                      <input
+                       className="form-control me-2" 
+                       type="text" 
+                       placeholder="Search" 
+                       aria-label="Search"
+                       onChange={(e)=>{setSchValue(e.target.value)}}
+                       />
+                       <Link href="/search/[result]" as={`/search/${schValue}`} style={{color: "white"}}>
+                        <a><span className="btn btn-primary">Search</span></a>
+                       </Link>
                     </form>
                   </div>
                 </div>

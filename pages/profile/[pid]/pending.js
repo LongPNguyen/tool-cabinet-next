@@ -1,77 +1,23 @@
-import { useRouter } from 'next/router'
-import { mutate } from 'swr'
 import LeadInfo from '../../../components/orders/leadInfo';
+import { useSession } from "next-auth/client"
+
 
 const Pending = ({lead}) => {
-  const router = useRouter()
-  const Accept = {
-    id: lead._id,
-    toolStatus: {toolStatus: "Accepted"}
-  }
-
-  const Decline = {
-    id: lead._id,
-    toolStatus: {toolStatus: "Declined"}
-  }
-
-  const Accepted = async (Accept) => {
-    const { pid } = router.query
-
-    try {
-      const res = await fetch(`/api/leads`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(Accept),
-      })
-
-      // Throw error with status code in case Fetch API req failed
-      if (!res.ok) {
-        throw new Error(res.status)
-      }
-
-      const { data } = await res.json()
-
-      mutate(`/api/leads`, data, false) // Update the local data without a revalidation
-      router.push(`/profile/${pid}/pendingorders`)
-    } catch (error) {
-      console.log(error)
+  const[session, loading] = useSession()
+    
+  if(typeof window !== "undefined" && loading){
+      return null;
     }
-  }
-
-  const Declined = async (Decline) => {
-    const { pid } = router.query
-
-    try {
-      const res = await fetch(`/api/leads`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(Decline),
-      })
-
-      // Throw error with status code in case Fetch API req failed
-      if (!res.ok) {
-        throw new Error(res.status)
-      }
-
-      const { data } = await res.json()
-
-      mutate(`/api/leads`, data, false) // Update the local data without a revalidation
-      router.push(`/profile/${pid}/pendingorders`)
-    } catch (error) {
-      console.log(error)
+    
+    if(!session){
+        return (
+                <div>
+                    <h1>You aren't signed in, please sign in first</h1>
+                    <button onClick={()=>{signIn()}}>Sign In</button>
+                </div>
+        )
     }
-  }
 
-  const onAccept = () => {
-    Accepted(Accept)
-  }
-  const onDecline = () => {
-    Declined(Decline)
-  }
     return (
       <div className="container">
         <h1>Pending Requests</h1>
