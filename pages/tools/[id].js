@@ -7,10 +7,13 @@ import styles from '../../components/Styles/index.module.css'
 import { DatePicker, Space, Alert } from 'antd';
 import moment from 'moment';
 import Quote from '../../components/Modals/quoteForm'
+import Stores from '../../models/Stores'
 
-export default function ToolPage({tool, owner}) {
+export default function ToolPage({tool, owner, store}) {
   const [dates, setDates] = useState([])
   const [validation, setValidation] = useState("")
+
+  console.log(store)
 
   const { RangePicker } = DatePicker;
 
@@ -103,13 +106,20 @@ export default function ToolPage({tool, owner}) {
           </div>
           {/* right column */}
           <div className="col-4">
-                <img className="img-thumbnail" src="https://i1.wp.com/i.pinimg.com/originals/2e/bc/2a/2ebc2a4c4874d77c575cac4c00594a0f.jpg?ssl=1"/>
+            {store?.map(store=>{
+              return(
+                <>
+                <img className="img-thumbnail" src={store.image || ""}/>
                 <p style={{fontSize:'1vw', paddingLeft:"5px"}}>
-                  {tool.storeName || 'My Rental Store Name'}<br/>
-                  123 Rental Street Kansas City, MO 64118<br/>
-                  (816)111-1111<br/>
-                  store@email.com
+                  {store.name || 'My Rental Store Name'}<br/>
+                  {store.address || "123 Rental Street Kansas City, MO 64118"}<br/>
+                  {store.phone || "(816)111-1111"}<br/>
+                  {store.email || "store@email.com"}
                 </p>
+              </>
+              )
+
+            })}
           </div>
         </div>
       </div>
@@ -128,6 +138,9 @@ export async function getServerSideProps({params}) {
   const user = await Users.findById(tool.ownerId).lean();
   user._id = user._id.toString()
 
-  return { props: { tool: tool, owner: user._id } }
+  const store = await Stores.find({"owner" : user?._id})
+  const parse = JSON.parse(JSON.stringify(store))
+
+  return { props: { tool: tool, owner: user._id, store: parse } }
 }
   
