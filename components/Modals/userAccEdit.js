@@ -1,41 +1,24 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
+import FileBase from "react-file-base64";
 
-const Quote = ({ dates, tool, owner }) => {
-  const [formData, setFormData] = useState({
-    toolId: "",
-    toolImage: "",
-    toolTitle: "",
-    toolStatus: "",
-    owner: "",
-    leadId: "",
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-    dates: [],
-  });
-  const url =
-    "mailto:nguy4227@gmail.com?subject=You have and interested customer&body=Contact info%0d%0aName: " +
-    formData.name +
-    "%0d%0aEmail: " +
-    formData.email +
-    "%0d%0aPhone: " +
-    formData.phone +
-    "%0d%0a%0d%0aRequested Dates%0d%0aFrom: " +
-    dates[0] +
-    "%0d%0aTo: " +
-    dates[1] +
-    "%0d%0a%0d%0aMessage%0d%0a" +
-    formData.message;
+const EditProfile = () => {
   const router = useRouter();
   const [session] = useSession();
+  const [formData, setFormData] = useState({
+    name: "",
+    image: "",
+    email: "",
+    bio: "",
+    phone: "",
+  });
 
   const postData = async (formData) => {
+    const { pid } = router.query;
     try {
-      const res = await fetch("/api/leads/leads", {
-        method: "POST",
+      const res = await fetch("/api/users/editUserAcc", {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -47,7 +30,7 @@ const Quote = ({ dates, tool, owner }) => {
         throw new Error(res.status);
       }
 
-      router.push(`/tools/${tool._id}`);
+      router.push(`/profile/user/${pid}`);
     } catch (error) {
       console.log(error);
     }
@@ -61,13 +44,7 @@ const Quote = ({ dates, tool, owner }) => {
     setFormData({
       ...formData,
       [id]: value,
-      toolId: tool._id,
-      toolImage: tool.images,
-      toolTitle: tool.title,
-      toolStatus: "Pending",
-      dates: dates,
-      owner: owner,
-      leadId: session.id,
+      image: session?.user?.image
     });
   };
 
@@ -83,16 +60,16 @@ const Quote = ({ dates, tool, owner }) => {
       {/* <!-- Modal --> */}
       <div
         className="modal fade"
-        id="quoteModal"
+        id="editModal"
         tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="editModal"
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Request Your Quote
+                Edit your information
               </h5>
               <button
                 type="button"
@@ -101,8 +78,18 @@ const Quote = ({ dates, tool, owner }) => {
                 aria-label="Close"
               ></button>
             </div>
-            <form onSubmit={handleSubmit} action={url}>
+            <form onSubmit={handleSubmit}>
               <div className="modal-body">
+                <div className="mb-3">
+                  <FileBase
+                    type="file"
+                    multiple={false}
+                    required
+                    onDone={({ base64 }) =>
+                      setFormData({ ...formData.image, image: base64 })
+                    }
+                  />
+                </div>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">
                     Full name
@@ -143,15 +130,15 @@ const Quote = ({ dates, tool, owner }) => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="message" className="form-label">
-                    Message
+                  <label htmlFor="bio" className="form-label">
+                    Bio
                   </label>
                   <textarea
                     className="form-control"
-                    id="message"
+                    id="bio"
                     rows="3"
-                    placeholder="Hello, I would like to get a quote for this item!"
-                    value={formData.message}
+                    placeholder="Hello, I like to rent tools!"
+                    value={formData.bio}
                     onChange={handleChange}
                   ></textarea>
                 </div>
@@ -165,7 +152,7 @@ const Quote = ({ dates, tool, owner }) => {
                   Close
                 </button>
                 <button type="submit" className="btn btn-primary">
-                  Submit
+                  Edit
                 </button>
               </div>
             </form>
@@ -176,4 +163,4 @@ const Quote = ({ dates, tool, owner }) => {
   );
 };
 
-export default Quote;
+export default EditProfile;

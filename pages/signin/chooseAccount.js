@@ -1,15 +1,16 @@
-import Layout from '../../components/Layout/layout'
+import LayoutTemplate from '../../components/Layout/layout'
 import styles from '../../components/Styles/index.module.css'
 import { signIn } from 'next-auth/client'
 
 const ChooseAccount = () => {
     return (
+        <LayoutTemplate>
         <div style={{
             backgroundImage: "url(https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8dG9vbHN8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60)",
             backgroundSize: "cover",
+            height:"100vh"
             }}>
-        <Layout>
-            <div className="row justify-content-center align-content-center m-0">
+            <div className="row justify-content-center align-content-start m-0">
             <div className="col-xl-5 p-5">
                 <div className="h-100 p-5 text-white bg-dark rounded-3">
                 <h2 className="text-white">Business Account</h2>
@@ -37,8 +38,9 @@ const ChooseAccount = () => {
                 </div>
             </div>
             </div>
-        </Layout>
-        </div>
+            </div>
+        </LayoutTemplate>
+
     )
   }
   

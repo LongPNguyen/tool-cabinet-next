@@ -28,7 +28,9 @@ const ToolSchema = new Schema({
         type: String
     },
     tags: [String],
-    images: String,
+    images: {
+        String
+    },
     rating: {
         type: String
     },

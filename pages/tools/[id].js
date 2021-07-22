@@ -2,7 +2,7 @@ import { useState } from 'react'
 import dbConnect from '../../util/mongodb'
 import Tools from '../../models/Tool'
 import Users from '../../models/User'
-import Layout from '../../components/Layout/layout'
+import LayoutTemplate from '../../components/Layout/layout'
 import styles from '../../components/Styles/index.module.css'
 import { DatePicker, Space, Alert } from 'antd';
 import moment from 'moment';
@@ -30,7 +30,7 @@ export default function ToolPage({tool, owner}) {
   }
 
   return (
-    <Layout>
+    <LayoutTemplate>
       {/* desktop */}
       <div className="container" style={{paddingTop:"1em"}}>
         <div className={`row ${styles.gallery}`}>
@@ -114,7 +114,7 @@ export default function ToolPage({tool, owner}) {
         </div>
       </div>
       {/* mobile */}
-    </Layout>
+    </LayoutTemplate>
   )
 }
 

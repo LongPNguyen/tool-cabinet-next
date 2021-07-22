@@ -6,6 +6,9 @@ const LeadSchema = new Schema({
     toolId: {
         type: String
     },
+    leadId: {
+        type:String
+    },
     owner: {
         type: String
     },

@@ -49,7 +49,7 @@ const Post = ({pid, user, tool}) => {
                 <div className="col-lg-7 col-md-12">
                     <h1 align="center">Inventory</h1>
                     <div className="row">
-                            {tool.map(tool=>(
+                            {tool?.map(tool=>(
                             <div key={tool._id} className="col-12">
                                 <div className="card" style={{padding:"0", margin:".5em"}}>
                                     <div className="row">
@@ -58,8 +58,19 @@ const Post = ({pid, user, tool}) => {
                                     </div>
                                     <div className="col-8">
                                     <div className="card-body">
-                                        <p>{tool.title}</p>
-                                        <Link href="/profile/[pid]/edit/[id]" as={`/profile/${pid}/edit/${tool._id}`} >
+                                        <div className="row">
+                                            <div className="col">
+                                            <p>Title: {tool.title}</p>
+                                            <p>Description: {tool.description}</p>
+                                            <p style={tool.status === "Pending" ? {color:"orange"} : tool.status === "in" || "Declined" ? {color:"green"} : tool.status === "out" || "Accepted"? {color:"red"} : ""}>Status: {tool.status}</p>
+                                            </div>
+                                            <div className="col">
+                                            <p>Price/Day: ${tool.pricePerDay}</p>
+                                            <p>Waiver: ${tool.damagePrice}</p>
+                                            <p>Deposit: ${tool.depositPrice}</p>
+                                            </div>
+                                        </div>
+                                        <Link href="/profile/[pid]/editTools/[id]" as={`/profile/${pid}/editTools/${tool._id}`} >
                                             <a>Edit</a>
                                         </Link>
                                     </div>
