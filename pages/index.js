@@ -5,7 +5,6 @@ import ToolsComp from "../Components/Tools/tools";
 import Tools from "../models/Tool";
 import Link from "next/link";
 import Router from "next/router";
-import { Skeleton } from "antd";
 
 export default function Home({ tools }) {
   const [schValue, setSchValue] = useState();
