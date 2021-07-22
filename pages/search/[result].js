@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import dbConnect from '../../util/mongodb'
 import { useRouter } from "next/router"
 import LayoutTemplate from '../../components/Layout/layout'
-import ToolsComp from '../../Components/Tools/tools'
+import ToolsComp from '../../components/Tools/tools'
 import Tools from '../../models/Tool'
 import Link from 'next/link'
 import Router from 'next/router'
