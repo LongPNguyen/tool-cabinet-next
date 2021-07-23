@@ -85,8 +85,6 @@ const StoreForm = ({ storeForm, pid, forNewStore = true, store }) => {
     });
   };
 
-  console.log(form)
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = formValidate();

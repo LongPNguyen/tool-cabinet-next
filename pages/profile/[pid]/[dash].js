@@ -123,8 +123,6 @@ const MainDash = () => {
       </div>
     );
   }
-
-  console.log(store)
   if (!user) {
     return <SkeletonMain />;
   }

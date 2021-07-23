@@ -98,7 +98,7 @@ export default function ToolPage({tool, owner, store}) {
                     <button onClick={()=>{handleSubmit()}} type="button" className="btn btn-primary" data-bs-toggle={validation === "valid" ? "modal" : ""} data-bs-target="#quoteModal">
                       Request a Quote
                     </button>
-                    <Quote dates={dates} tool={tool} owner={owner}/>
+                    <Quote dates={dates} tool={tool} owner={owner} />
                   </div>
                 </div>
               </div>

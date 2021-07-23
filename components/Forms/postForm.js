@@ -94,8 +94,6 @@ const PostForm = ({ postForm, pid, forNewTool = true }) => {
     });
   };
 
-  console.log(form)
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const errs = formValidate();

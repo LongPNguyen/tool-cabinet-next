@@ -8,12 +8,6 @@ const UserSchema = new Schema({
     email: String,
     phone: String,
     bio: String,
-    store: String,
-    storeAddress: String,
-    storeDescription: String,
-    storeImage: String,
-    storeNumber: String,
-    storeWebSite: String,
     business: Boolean
 })
 
