@@ -23,7 +23,7 @@ export default function ToolsComp({ tools }) {
               <div className="row">
                 <div className="col-6 d-flex align-items-center justify-content-start">
                   <p className={styles.priceContainer}>
-                    ${tools.pricePerHr}|Hr
+                    ${tools.depositPrice}|Deposit
                   </p>
                 </div>
                 <div className="col-6 d-flex align-items-center justify-content-start">
