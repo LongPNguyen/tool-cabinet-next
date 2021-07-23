@@ -93,9 +93,11 @@ export default function Home({ tools }) {
             </h1>
             <div className="container">
               <div className="row g-2">
-                {tools.map((tool) => (
+                {!tools.length === 0 ? tools.map((tool) => (
                   <ToolsComp key={tool._id} tools={tool} />
-                ))}
+                )):
+                <h1 align="center">No Tools at this time.</h1>
+                }
               </div>
             </div>
           </div>

@@ -73,6 +73,9 @@ const Post = ({pid, user, tool}) => {
                                         <Link href="/profile/[pid]/editTools/[id]" as={`/profile/${pid}/editTools/${tool._id}`} >
                                             <a>Edit</a>
                                         </Link>
+                                        <Link href="/profile/[pid]/editTools/[id]" as={`/profile/${pid}/editTools/${tool._id}`} >
+                                            <a>Add Inventory</a>
+                                        </Link>
                                     </div>
                                     </div>
                                     </div>
