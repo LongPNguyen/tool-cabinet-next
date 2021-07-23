@@ -20,7 +20,6 @@ export default function ToolsComp({ tools }) {
               <p className="card-text">
                 <strong>{tools.title}</strong>
               </p>
-              <p className="card-text">{tools.description}</p>
               <div className="row">
                 <div className="col-6 d-flex align-items-center justify-content-start">
                   <p className={styles.priceContainer}>
