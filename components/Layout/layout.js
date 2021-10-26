@@ -26,8 +26,9 @@ const LayoutTemplate = (props) => (
     </Content>
     <Footer
       style={{
-        minHeight: "25vh",
-        backgroundImage: "url(/images/footerbanner.png)",
+        backgroundColor: "#f7b42c",
+        backgroundImage: "linear-gradient(315deg,#414141 74%,  #f7b75e 0%)"
+
       }}
     >
       <FooterNav />

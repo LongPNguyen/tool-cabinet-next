@@ -5,7 +5,7 @@ export default function ToolsComp({ tools }) {
   return (
     <>
       <Link href={`/tools/${tools._id}`} tool={tools}>
-        <div className="col-xl-2 col-lg-2 col-6 d-flex align-items-center flex-column">
+        <div className="col-xl-2 col-lg-2 col d-flex align-items-center flex-column">
           <div
             className="card display"
             style={{ width: "10rem", marginBottom: "1em" }}
@@ -21,12 +21,12 @@ export default function ToolsComp({ tools }) {
                 <strong>{tools.title}</strong>
               </p>
               <div className="row">
-                <div className="col-6 d-flex align-items-center justify-content-start">
+                <div className="col-12 d-flex align-items-center justify-content-start">
                   <p className={styles.priceContainer}>
                     ${tools.depositPrice}|Deposit
                   </p>
                 </div>
-                <div className="col-6 d-flex align-items-center justify-content-start">
+                <div className="col-12 d-flex align-items-center justify-content-start">
                   <p className={styles.priceContainer}>
                     ${tools.pricePerDay}|Day
                   </p>

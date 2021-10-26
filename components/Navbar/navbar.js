@@ -84,7 +84,7 @@ export default function NavBar() {
               <li className="nav-item">
                 {!session && (
                   <Link href="/signin/chooseAccount">
-                    <a className="btn btn-primary" href="">
+                    <a className="btn btn-warning" href="">
                       Sign Up
                     </a>
                   </Link>
@@ -95,7 +95,7 @@ export default function NavBar() {
                 {!session && (
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-warning"
                     onClick={() => signIn()}
                   >
                     Sign In
@@ -107,7 +107,7 @@ export default function NavBar() {
                   <div>
                     <div className="dropdown">
                       <button
-                        className="btn btn-primary dropdown-toggle"
+                        className="btn btn-warning dropdown-toggle"
                         href="#"
                         role="button"
                         id="dropdownMenuLink"
