@@ -5,15 +5,15 @@ export default function ToolsComp({ tools }) {
   return (
     <>
       <Link href={`/tools/${tools._id}`} tool={tools}>
-        <div className="col-xl-2 col-lg-2 col d-flex align-items-center flex-column">
+        <div className="col-xl-2 col-lg-3 col-md-4 col-6 d-flex align-items-center flex-column">
           <div
             className="card display"
-            style={{ width: "10rem", marginBottom: "1em" }}
+            style={{ marginBottom: "1em" }}
           >
             <img
               src={tools.images}
               className="card-img-top img-fluid"
-              style={{ height: "10rem" }}
+              style={{ height: "8rem" }}
               alt="..."
             />
             <div className="card-body">

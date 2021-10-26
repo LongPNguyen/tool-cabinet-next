@@ -24,12 +24,6 @@
   }
 }
 
-@media screen and (min-width: 992px) {
-  .card {
-    width: 18rem;
-  }
-}
-
 .gallery {
   background-image: url("/images/toolbgblur.jpeg");
   background-size: cover;
