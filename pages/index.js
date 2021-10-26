@@ -58,7 +58,7 @@ export default function Home({ tools }) {
                   style={{ color: "white" }}
                 >
                   <a>
-                    <span className="btn btn-outline-primary">Search</span>
+                    <span className="btn btn-outline-warning">Search</span>
                   </a>
                 </Link>
               </form>
@@ -67,7 +67,7 @@ export default function Home({ tools }) {
           <div className="d-flex justify-content-center mt-3">
             <button
               type="button"
-              className="btn btn-outline-primary btn-lg px-4 me-md-2"
+              className="btn btn-outline-warning btn-lg px-4 me-md-2"
             >
               <a href="#tools" style={{ color: "inherit" }}>
                 <span>Discover </span>
@@ -88,7 +88,7 @@ export default function Home({ tools }) {
             </button>
           </div>
           <div className="d-flex align-items-center flex-column" id="tools">
-            <h1 style={{ margin: "1em", borderBottom: "1px solid red" }}>
+            <h1 style={{ margin: "1em", borderBottom: "1px solid #f7b75e" }}>
               Tools
             </h1>
             <div className="container">
