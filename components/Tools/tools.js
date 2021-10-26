@@ -13,7 +13,7 @@ export default function ToolsComp({ tools }) {
             <img
               src={tools.images}
               className="card-img-top img-fluid"
-              style={{ height: "8rem" }}
+              style={{ height: "8rem" }} 
               alt="..."
             />
             <div className="card-body">
