@@ -69,9 +69,11 @@ const LeadInfo = ({ lead }) => {
 
   const onAccept = () => {
     Accepted(Accept);
+    window.location.reload(false)
   };
   const onDecline = () => {
     Declined(Decline);
+    window.location.reload(false)
   };
   return (
     <li key={lead._id} className="list-group-item">

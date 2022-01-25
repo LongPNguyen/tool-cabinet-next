@@ -1,6 +1,6 @@
 import NavBar from "../Navbar/navbar";
 import React from "react";
-import Head from "next/dist/next-server/lib/head";
+import Head from "next/head";
 import FooterNav from "../Navbar/footer";
 import { Layout } from "antd";
 
